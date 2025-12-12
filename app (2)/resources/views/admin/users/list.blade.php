@@ -1,0 +1,1402 @@
+
+@extends('layouts.app', ['pagetitle'=>'Dashboard'])
+
+<style type="text/css">
+    .error {
+    color: red;
+    margin: 10px 0px;
+}
+
+.collapseButton {
+  vertical-align: text-top;
+}
+
+th, td {
+  padding: 1em;
+}
+
+#hidden {
+  display: none;
+}
+
+
+table {
+  border-collapse: collapse;
+}
+p {
+    margin-top: 0;
+    margin-bottom: 5px !important;
+}
+
+
+
+table th, td {
+  padding: 1em;
+  text-align: center;
+}
+
+.pagination {
+    display: block !important;
+        margin-bottom: 20px;
+}
+
+img, svg {
+    vertical-align: middle;
+    width: 20px;
+}
+.flex.justify-between.flex-1.sm\:hidden {
+    display: none;
+}
+.pagination {
+    display: block !important;
+        margin-bottom: 20px;
+}
+.hidden.sm\:flex-1.sm\:flex.sm\:items-center.sm\:justify-between {
+    margin-top: 24px;
+}
+        .step-number {
+            border-top: #333 2px solid;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            position: relative;
+        }
+
+        .step-number:before {
+            content: "";
+            background: #fff;
+            display: block;
+            position: absolute;
+            height: 3px;
+            width: 27px;
+            top: -2px;
+            z-index: 0;
+        }
+
+        .step-number:after {
+            content: "";
+            background: #fff;
+            display: block;
+            position: absolute;
+            height: 3px;
+            width: 27px;
+            top: -2px;
+            z-index: 0;
+            right: 0;
+        }
+
+        .step-number span {
+            margin-top: -15px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .step-number em {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-block;
+            text-align: center;
+            font-style: normal;
+            line-height: 30px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .ins-t td {
+            font-size: 13px;
+            padding: 5px 0px;
+        }
+
+        .cam-img {
+            width: 100%;
+            background: #f7f7f7;
+            height: 80%;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .imageuploadify {
+            min-height: 150px;
+        }
+
+        .imageuploadify-message {
+            display: none !important;
+        }
+
+        .imageuploadify .imageuploadify-images-list i {
+            font-size: 3em;
+            height: 50px;
+        }
+        
+        
+        
+        html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+.intro {
+  max-width: 1280px;
+  margin: 1em auto;
+}
+.table-scroll {
+  position: relative;
+  width:100%;
+  z-index: 1;
+  margin: auto;
+  overflow: auto;
+  height: 950px;
+}
+.table-scroll table {
+  width: 100%;
+  min-width: 1280px;
+  margin: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.table-wrap {
+  position: relative;
+}
+.table-scroll th,
+.table-scroll td {
+  padding: 5px 10px;
+  border: 1px solid #000;
+  background: #fff;
+  vertical-align: top;
+}
+.table-scroll thead th {
+  background: #333;
+  color: #fff;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+/* safari and ios need the tfoot itself to be position:sticky also */
+.table-scroll tfoot,
+.table-scroll tfoot th,
+.table-scroll tfoot td {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+  background: #666;
+  color: #fff;
+  z-index:4;
+}
+
+a:focus {
+  background: red;
+} /* testing links*/
+
+th:first-child {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: #ccc;
+}
+thead th:first-child,
+tfoot th:first-child {
+  z-index: 5;
+}
+#loader {
+    position: fixed; /* Use fixed to make sure it's always in view */
+    z-index: 9999999;
+    width: 100%;
+    height: 100%;
+    background: rgba(147, 112, 219, 0.5); /* MediumVioletRed with opacity */
+    text-align: center;
+}
+
+#loader::after {
+    content: "";
+    width: 60px;
+    height: 60px;
+    border: 6px solid #fff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite; /* Animation to create spinner effect */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -30px; /* Half of width */
+    margin-top: -30px; /* Half of height */
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg); /* Rotate 360 degrees */
+    }
+}
+
+.page-content a {
+    color: #008cff !important;
+}
+
+.license-box {
+          
+          
+            border-radius: 10px;
+            padding: 20px;
+            text-align: left;
+            font-family: Arial, sans-serif;
+        }
+        .license-box div {
+            margin-bottom: 10px;
+        }
+        .view-history a {
+            color: blue;
+            text-decoration: none;
+        }
+        .view-history a:hover {
+            text-decoration: underline;
+        }
+</style>
+    <link rel="stylesheet" href="{{asset('assets/css/new/style.css')}}" />
+
+@section('content')
+
+     @include('admin.users.popups.reginoal')
+@include('admin.users.popups.unit')
+
+
+  <div class="row">
+                         <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <ul class="nav nav-pills nav-pills-success mb-3" role="tablist" style="
+    display: block !important;">
+                                        <li class="nav-item" role="presentation" style="
+    display: block !important;">
+                                            <a class="nav active" style="
+    display: block !important;" data-bs-toggle="pill" href="#company-details" role="tab" aria-selected="false">
+                                                <div class="d-flex align-items-center" style="width: 87%;
+    display: block !important;">
+                                                     
+         @include('admin.includes.flashMessage')
+         
+                                                </div>
+                                            </a>
+                                        </li>
+                                        
+                                 
+                              
+                                
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade  show active " id="company-details" role="tabpanel">
+                                            <div class="row row-cols-auto g-3" style="    float: right;
+    margin-bottom: 20px;">
+                                                <div class="col">
+                                                    
+                                                    <?php  $is_role = Auth::user()->is_role; ?>
+                                                     @if($is_role==0)
+                    <button type="button" class="btn btn-outline-dark px-3" data-bs-toggle="modal" data-bs-target="#addcompanydetails" >+ Add Corporate</button>
+                    
+                    @endif
+                    
+                     @if($is_role !=1 && $is_role !=3)
+                   <button type="button" class="btn btn-outline-dark px-3" data-bs-toggle="modal" data-bs-target="#addregionaldetails">+ Add Regional</button>
+                    @endif
+													
+													
+													  <button type="button" class="btn btn-outline-dark px-3" data-bs-toggle="modal" data-bs-target="#addunitdetails" >+ Add Unit</button>
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                            
+                                         
+
+
+                                           
+                                        </div>
+                              
+                                                
+                                                    </div> 
+                                                   </div>
+                                                
+                                                
+                                                
+                                            </div>
+                                            
+
+                                            
+                                            
+                                       </div>
+                          
+                         
+                                    </div>
+<div class="containerr p-2">
+    <div class="table-boxes">
+<div class="table-responsive">
+    <div>
+        
+         
+             @php $i=1; @endphp
+        @foreach($users as $userss)
+    <table>
+        <thead>
+            <tr>
+                <th style="background: #000;"><span>Corporate Name:</span>{{$userss->login_id ?? ''}}</th>
+                <th style="background: #000;"><span>Contact Person Name:</span>{{$userss->name ?? ''}}</th>
+                <th style="background: #000;"><span>Designation:</span>{{$userss->designation ?? ''}}</th>
+                <th style="background: #000;"><span>Email:{{$userss->email ?? ''}}</span></th>
+                <th style="background: #000;"><span>Company Number:</span>{{$userss->mobile_number ?? ''}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            
+           
+            <tr>
+                <td colspan="4"><p>{{$userss->Company_address ?? ''}}</p></td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="totel-rate-box">
+                        <div class="box-in-content" style="width: 100%;">
+                            
+                            <div class="license-box">
+    <div style="width: 100%;text-align: center;margin: 10px;"><strong>FSSAI License</strong></div>
+    <div style="float: left;width: 50%;">Total:<a href="{{route('getallDocuments',[$userss->id,'All','Corporate'])}}">{{ Helper::getexpDocuments($userss->id,"Central","2","Corporate","License")  +  Helper::getDocuments($userss->id, 'Central', 'Corporate','License') }}</a>(C:<a href="{{route('getallDocuments',[$userss->id,'Central','Corporate'])}}">{{ Helper::totalDocuments($userss->id, 'Central', 'Corporate','License') }}</a>;S:<a href="{{route('getallDocuments',[$userss->id,'State','Corporate'])}}">{{ Helper::totalDocuments($userss->id, 'State', 'Corporate','License') }}</a>)</div>
+    <div style="float: left;width: 50%;">Valid: <a href="{{route('getDocuments',[$userss->id,'Central','Corporate'])}}">{{ Helper::getDocuments($userss->id, 'Central', 'Corporate','License') }} </a> (Near Expiry <a href="{{route('getexpDocuments',[$userss->id,'Central','1','Corporate'])}}">{{Helper::getexpDocuments($userss->id,"Central","1","Corporate",'License')}}</a>)</div>
+    <div style="float: left;width: 50%;">Expired:<a href="{{route('getexpDocuments',[$userss->id,'Central','2','Corporate'])}}">{{Helper::getexpDocuments($userss->id,"Central","2","Corporate","License")}} </a></div>
+    <div style="float: left;width: 50%;">Not Uploaded: <a href="{{route('units',[$userss->id,'1','pending'])}}">{{Helper::units($userss->id,'1','pending','License')}}</a></div>
+    <div style="float: left;width: 50%;"><a href="{{route('allUnitHistory',[$userss->id,'Corporate'])}}">View History</a></div>
+     
+</div>
+
+                 </td>
+                <td>
+                    <div class="totel-rate-box" style="    min-width: 560px;">
+                        
+                                                    <div class="license-box">
+<div style="width: 100%;text-align: center;margin: 10px;"><strong>HRA</strong></div>
+
+<div style="float: left;width: 100%;">
+   Total:<a href="{{route('getallDocuments',[$userss->id,'All','Corporate'])}}?document_type=HRA">{{ Helper::getexpDocuments($userss->id,"Central","2","Corporate","HRA")  +  Helper::getDocuments($userss->id, 'Central', 'Corporate','HRA') }}</a>
+
+    [Valid: 
+    <a href="{{ route('getDocuments', [$userss->id, 'Central', 'Corporate']) }}?document_type=HRA">
+        {{ Helper::getDocuments($userss->id, 'Central', 'Corporate','HRA') }}
+    </a> 
+    (Near Expiry: 
+    <a href="{{ route('getexpDocuments', [$userss->id, 'Central', '1', 'Corporate']) }}?document_type=HRA">
+        {{ Helper::getexpDocuments($userss->id, 'Central', '1', 'Corporate','HRA') }}
+    </a>) ]
+</div>
+
+
+<div style="float: left;width: 50%;">NA: 
+    <a href="{{route('getallDocuments',[$userss->id,'NA','Corporate'])}}?document_type=HRA">{{ Helper::totalDocuments($userss->id, 'NA', 'Corporate','HRA') }}</a>
+</div>
+
+<div style="float: left;width: 50%;">Expired: 
+    <a href="{{ route('getexpDocuments', [$userss->id, 'Central', '2', 'Corporate']) }}?document_type=HRA">
+        {{ Helper::getexpDocuments($userss->id, 'Central', '2', 'Corporate','HRA') }}
+    </a>
+</div>
+
+<div style="float: left;width: 50%;">Not Uploaded: 
+    <a href="{{ route('units', [$userss->id, '1', 'pending']) }}?document_type=HRA">
+        {{ Helper::units($userss->id, '1', 'pending','HRA') }}
+    </a>
+</div>
+     
+</div>
+
+
+       
+                        <div class="divider"></div>
+                        <div class="box-in-content-2">
+                                                    <div class="license-box">
+<div style="width: 100%;text-align: center;margin: 10px;"><strong>TPA</strong></div>
+
+<div style="float: left;width: 100%;">
+       Total:<a href="{{route('getallDocuments',[$userss->id,'All','Corporate'])}}?document_type=TPA">{{ Helper::getexpDocuments($userss->id,"Central","2","Corporate","TPA")  +  Helper::getDocuments($userss->id, 'Central', 'Corporate','TPA') }}</a>
+
+[Valid: 
+    <a href="{{ route('getDocuments', [$userss->id, 'Central', 'Corporate']) }}?document_type=TPA">
+        {{ Helper::getDocuments($userss->id, 'Central', 'Corporate','TPA') }}
+    </a> 
+    (Near Expiry: 
+    <a href="{{ route('getexpDocuments', [$userss->id, 'Central', '1', 'Corporate']) }}?document_type=TPA">
+        {{ Helper::getexpDocuments($userss->id, 'Central', '1', 'Corporate','TPA') }}
+    </a>)]
+   
+</div>
+
+<div style="float: left;width: 50%;">NA: 
+    <a href="{{route('getallDocuments',[$userss->id,'NA','Corporate'])}}?document_type=TPA">{{ Helper::totalDocuments($userss->id, 'NA', 'Corporate','TPA') }}</a>
+</div>
+
+<div style="float: left;width: 50%;">Expired: 
+    <a href="{{ route('getexpDocuments', [$userss->id, 'Central', '2', 'Corporate']) }}?document_type=TPA">
+        {{ Helper::getexpDocuments($userss->id, 'Central', '2', 'Corporate','TPA') }}
+    </a>
+</div>
+
+<div style="float: left;width: 50%;">Not Uploaded: 
+    <a href="{{ route('units', [$userss->id, '1', 'pending']) }}?document_type=TPA">
+        {{ Helper::units($userss->id, '1', 'pending','TPA') }}
+    </a>
+</div>
+     
+</div>
+                        </div>
+                     
+                     <br>
+   
+                    </div>
+                                       <div style="float: left;width: 50%;"><a href="{{route('allUnitHistory',[$userss->id,'Corporate'])}}?document_type=TPA">View History</a></div>  
+                </td>
+                
+                               <td>
+                    <div class="totel-rate-box" style="    min-width: 420px;">
+        <!--                <div class="box-in-content">-->
+        <!--                    <h5>Medical Fittness Certificate</h5>-->
+        <!--             <h5>Unit Complied:20</h5>-->
+        <!--<h5>Unit About to expried:0</h5>-->
+        <!--  <h5>Expried:0</h5>-->
+        <!--<h5>Unit Non Complied:20</h5>-->
+        <!--                </div>-->
+                        <!--<div class="divider"></div>-->
+                        <div class="box-in-content-2">
+                            <h5>Medical Fittness Certificate</h5>
+                            <h5 style="float: left;width: 50%;">Food Handlers Count:1000</h5>
+                            <h5 style="float: left;width: 50%;">Certificate Requried:250</h5>
+                            
+                            <h5><div style="float: left;width: 100%;">
+   Total Certificate:<a href="https://efsm.safefoodmitra.com/admin/public/index.php/getallDocuments/40/All/Corporate?document_type=HRA">2</a>
+
+    [Valid: 
+    <a href="https://efsm.safefoodmitra.com/admin/public/index.php/getDocuments/40/Central/Corporate?document_type=HRA">
+        1
+    </a> 
+    (Near Expiry: 
+    <a href="https://efsm.safefoodmitra.com/admin/public/index.php/getexpDocuments/40/Central/1/Corporate?document_type=HRA">
+        1
+    </a>) ]
+</div></h5>
+
+<h5 style="width: 500%;">Expired:    <a href="">
+        1
+    </a></h5>
+<h5 style="float: left;width: 50%;">Unit Compliance:    <a href="">
+        1
+    </a></h5>
+<h5 style="float: left;width: 50%;">Unit Not Compliance:    <a href="">
+        1
+    </a></h5>
+                            
+<!--                            <div style="float: left;width: 50%;">Not Uploaded: -->
+<!--    <a href="{{ route('unitsFoSTaC', [$userss->id, '1', 'pending','Corporate']) }}?document_type=FoSTaC">-->
+<!--        {{ Helper::units($userss->id, '1', 'pending','FoSTaC') }}-->
+<!--    </a>-->
+<!--</div>-->
+
+                            <!--<a href="#">Update/View License</a>-->
+                        </div>
+                       
+                    </div>
+                </td>
+                <td>
+                    <div class="totel-rate-box" style="    min-width: 420px;">
+        <!--                <div class="box-in-content">-->
+        <!--                    <h5>Medical Fittness Certificate</h5>-->
+        <!--             <h5>Unit Complied:20</h5>-->
+        <!--<h5>Unit About to expried:0</h5>-->
+        <!--  <h5>Expried:0</h5>-->
+        <!--<h5>Unit Non Complied:20</h5>-->
+        <!--                </div>-->
+                        <!--<div class="divider"></div>-->
+                        <div class="box-in-content-2">
+                            <h5>FoSTaC Certificate</h5>
+                            
+                            @php $totalEmploye = Helper::totalcorporateregionalunitfostag($userss->id) @endphp
+                            
+                            <h5 style="float: left;width: 50%;">Food Handlers Count:{{$totalEmploye}}</h5>
+                            <h5 style="float: left;width: 50%;">Certificate Requried:@if($totalEmploye > 0) {{$totalEmploye/25}} @else 0 @endif</h5>
+                            
+                            <h5><div style="float: left;width: 100%;">
+   Total Certificate:<a href="https://efsm.safefoodmitra.com/admin/public/index.php/getallDocuments/40/All/Corporate?document_type=HRA">2</a>
+
+    [Valid: 
+    <a href="https://efsm.safefoodmitra.com/admin/public/index.php/getDocuments/40/Central/Corporate?document_type=HRA">
+        1
+    </a> 
+    (Near Expiry: 
+    <a href="https://efsm.safefoodmitra.com/admin/public/index.php/getexpDocuments/40/Central/1/Corporate?document_type=HRA">
+        1
+    </a>) ]
+</div></h5>
+
+<h5 style="float: left;width: 50%;">Expired:    <a href="">
+        1
+    </a></h5>
+<h5 style="float: left;width: 50%;">Unit Compliance:    <a href="">
+        1
+    </a></h5>
+<h5 style="float: left;width: 50%;">Unit Not Compliance:    <a href="{{ route('unitsFoSTaC', [$userss->id, '1', 'pending','Corporate']) }}?document_type=FoSTaC">
+        1
+    </a></h5>
+                            
+<!--                            <div style="float: left;width: 50%;">Not Uploaded: -->
+<!--    <a href="{{ route('unitsFoSTaC', [$userss->id, '1', 'pending','Corporate']) }}?document_type=FoSTaC">-->
+<!--        {{ Helper::units($userss->id, '1', 'pending','FoSTaC') }}-->
+<!--    </a>-->
+<!--</div>-->
+
+                            <!--<a href="#">Update/View License</a>-->
+                        </div>
+                       
+                    </div>
+                </td>
+                
+                
+                <td>
+                                  
+
+                    <div class="totel-rate-box" style="    min-width: 541px;">
+                        <div class="box-in-content">
+                            <h5>Food</h5>
+                  <p><strong>Unit Complied:<a href="{{route('getotherDocuments',[$userss->id,'4','1','Corporate'])}}">{{Helper::Totalfileslist("4",$userss->id,"half","Corporate")}} View</a></strong></p>
+        <p><strong>Unit Non Complied:20</strong></p>
+               
+                        </div>
+                        <div class="divider"></div>
+                        <div class="box-in-content-2">
+                            <h5>Water</h5>
+                                  <p><strong>Unit Complied:<a href="{{route('getotherDocuments',[$userss->id,'4','1','Corporate'])}}">{{Helper::Totalfileslist("4",$userss->id,"full","Corporate")}} View</a></strong></p>
+        <p><strong>Unit Non Complied:20</strong></p>
+     
+                        </div>
+                                     <div class="divider"></div>
+                         <div class="box-in-content">
+                            <h5>Other</h5>
+                                  <p><strong>Unit Complied:<a href="{{route('getotherDocuments',[$userss->id,'4','1','Corporate'])}}">{{Helper::Totalfileslist("4",$userss->id,"full","Corporate")}} View</a></strong></p>
+        <p><strong>Unit Non Complied:20</strong></p>
+               
+                        </div>
+                       
+                    </div>
+                </td>
+
+             
+
+ 
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <div class="btn-view-regional">
+                        <button class="btn-regnl-1" onclick="openRegional({{$userss->id ?? ''}})">View Regional</button>
+                    </div>
+                </td>
+                <td colspan="4">
+                    <div class="btn-view-regional">
+                        <button class="btn-regnl-2">View Unit {{$userss->id}}</button>
+                    </div>
+                </td>
+            </tr>
+            
+            
+              @php 	
+  
+  			$regional = DB::table('users')->where('created_by', $userss->id ?? '')->where('is_role', "1")->get(); @endphp
+ @foreach($regional as $regionals)
+            <tr>
+                <td colspan="7">
+                <table class="drop-down-tble  tab-two openRegional_{{$regionals->created_by ?? ''}}">
+                    <thead>
+                        <tr>
+                                     <th ><span>Regional Name :</span>{{$regionals->login_id ?? ''}}</th>
+                <th ><span>Contact Person Name:</span>{{$regionals->name ?? ''}}</th>
+                <th ><span>Designaation:</span>{{$regionals->designation ?? ''}}</th>
+                <th><span>Email:{{$regionals->email ?? ''}}</span></th>
+                <th><span>Company Number:</span>{{$regionals->mobile_number ?? ''}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="7"><p>{{$regionals->Company_address ?? ''}}</p></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="totel-rate-box">
+                                    <div class="box-in-content">
+                                        
+                                                                 <div class="license-box">
+    <div style="width: 100%;text-align: center;margin: 10px;"><strong>FSSAI License</strong></div>
+    
+
+    <div style="float: left;width: 50%;">Total:<a href="{{route('getallDocuments',[$regionals->id,'All','regional'])}}">{{ Helper::getDocuments($regionals->id, 'Central', 'regional','License')  +  Helper::getexpDocuments($regionals->id,"Central","2","regional","License") }}</a>(C:<a href="{{route('getallDocuments',[$regionals->id,'Central','regional'])}}">{{ Helper::totalDocuments($regionals->id, 'Central', 'regional','License') }}</a>;S:<a href="{{route('getallDocuments',[$regionals->id,'State','regional'])}}">{{ Helper::totalDocuments($userss->id, 'State', 'Corporate','License') }}</a>)</div>
+
+    <div style="float: left;width: 50%;">Valid: <a href="{{route('getDocuments',[$regionals->id,'Central','regional'])}}">{{ Helper::getDocuments($regionals->id, 'Central', 'regional','License') }}</a> (Near Expiry <a href="{{route('getexpDocuments',[$regionals->id,'Central','1','regional'])}}">{{Helper::getexpDocuments($regionals->id,"Central","1","regional","License")}}</a>)</div>
+    <div style="float: left;width: 50%;">Expired:<a href="{{route('getexpDocuments',[$regionals->id,'Central','2','regional'])}}">{{Helper::getexpDocuments($regionals->id,"Central","2","regional","License")}}</a></div>
+   
+    <div style="float: left;width: 50%;">Not Uploaded: <a href="{{route('unitHistory',[$regionals->id,'regional'])}}">1</a></div>
+    <div style="float: left;width: 50%;"><a href="{{route('allUnitHistory',[$regionals->id,'regional'])}}">History</a></div>
+</div>
+
+
+
+
+
+
+                            </td>
+                            <td>
+                                <div class="totel-rate-box">
+                                    <div class="box-in-content">
+                                        
+                                        
+                                        
+                                                    <div class="license-box">
+<div style="width: 100%;text-align: center;margin: 10px;"><strong>HRA</strong></div>
+
+<div style="float: left;width: 100%;">
+    
+      Total:<a href="{{route('getallDocuments',[$regionals->id,'All','regional'])}}?document_type=HRA">{{ Helper::getexpDocuments($regionals->id,"Central","2","regional","HRA")  +  Helper::getDocuments($regionals->id, 'Central', 'regional','HRA') }}</a>
+[Valid: 
+    <a href="{{ route('getDocuments', [$regionals->id, 'Central', 'regional']) }}?document_type=HRA">
+        {{ Helper::getDocuments($regionals->id, 'Central', 'regional','HRA') }}
+    </a> 
+    (Near Expiry: 
+    <a href="{{ route('getexpDocuments', [$regionals->id, 'Central', '1', 'regional']) }}?document_type=HRA">
+        {{ Helper::getexpDocuments($regionals->id, 'Central', '1', 'regional','HRA') }}
+    </a>)
+    (NA:<a href="{{route('getallDocuments',[$regionals->id,'NA','Corporate'])}}?document_type=HRA">{{ Helper::totalDocuments($regionals->id, 'NA', 'Corporate','HRA') }}</a>)
+    ]
+</div>
+
+<div style="float: left;width: 50%;">Expired: 
+    <a href="{{ route('getexpDocuments', [$regionals->id, 'Central', '2', 'regional']) }}?document_type=HRA">
+        {{ Helper::getexpDocuments($regionals->id, 'Central', '2', 'regional','HRA') }}
+    </a>
+</div>
+
+<div style="float: left;width: 50%;">Not Uploaded: 
+    <a href="{{ route('units', [$regionals->id, '1', 'pending']) }}?document_type=HRA">
+        {{ Helper::units($regionals->id, '1', 'pending','HRA') }} View
+    </a>
+</div>
+     
+</div>
+
+
+               
+                                    </div>
+                                    <div class="divider"></div>
+                                    <div class="box-in-content-2">
+                                        
+                                                                                            <div class="license-box">
+<div style="width: 100%;text-align: center;margin: 10px;"><strong>TPA</strong></div>
+
+<div style="float: left;width: 100%;">
+    Total:<a href="{{route('getallDocuments',[$userss->id,'All','regional'])}}?document_type=TPA">{{ Helper::getexpDocuments($userss->id,"Central","2","regional","TPA")  +  Helper::getDocuments($userss->id, 'Central', 'regional','TPA') }}</a>
+     
+     [Valid: 
+    <a href="{{ route('getDocuments', [$userss->id, 'Central', 'regional']) }}?document_type=TPA">
+        {{ Helper::getDocuments($userss->id, 'Central', 'regional','TPA') }}
+    </a> 
+    (Near Expiry: 
+    <a href="{{ route('getexpDocuments', [$userss->id, 'Central', '1', 'regional']) }}?document_type=TPA">
+        {{ Helper::getexpDocuments($userss->id, 'Central', '1', 'regional','TPA') }}
+    </a>)
+    (NA:<a href="{{route('getallDocuments',[$regionals->id,'NA','Corporate'])}}?document_type=TPA">{{ Helper::totalDocuments($regionals->id, 'NA', 'Corporate','TPA') }}</a>)
+    ]
+</div>
+
+<div style="float: left;width: 50%;">Expired: 
+    <a href="{{ route('getexpDocuments', [$userss->id, 'Central', '2', 'regional']) }}?document_type=TPA">
+        {{ Helper::getexpDocuments($userss->id, 'Central', '2', 'regional','TPA') }}
+    </a>
+</div>
+
+<div style="float: left;width: 50%;">Not Uploaded: 
+    <a href="{{ route('units', [$userss->id, '1', 'pending']) }}?document_type=TPA">
+        {{ Helper::units($userss->id, '1', 'pending','TPA') }} View
+    </a>
+</div>
+     
+</div>
+
+                                    </div>
+                                    
+                                            <div style="float: left;width: 50%;"><a href="{{route('allUnitHistory',[$regionals->id,'regional'])}}?document_type=TPA">History</a></div>  
+                                   
+                                </div>
+                            </td>
+                      <td>
+                    <div class="totel-rate-box" style="    min-width: 420px;">
+                        <div class="box-in-content">
+                            <h5>Medical Fittness Certificate</h5>
+                     <h5>Unit Complied:20</h5>
+        <h5>Unit About to expried:0</h5>
+          <h5>Expried:0</h5>
+        <h5>Unit Non Complied:20</h5>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="box-in-content-2">
+                            <h5>FoSTaC Certificate)</h5>
+                            <h5>Unit Compliance:</h5>
+                            <h5>Unit Not Compliance:</h5>
+                            <h5>Vaid Certificate:</h5>
+                            <a href="#">Update/View License</a>
+                        </div>
+                       
+                    </div>
+                </td>
+                            <td>
+                                <div class="totel-rate-box">
+                                    <div class="box-in-content">
+                                        <h5>H1</h5>
+                                       <p><strong>Food Unit Complied:<a href="{{route('getotherDocuments',[$regionals->id,'4','1','regional'])}}">{{Helper::Totalfileslist("4",$userss->id,"half","regional")}} View</a></strong></p>
+        <p><strong>Unit Non Complied:20</strong></p>
+               <br>
+        <p><strong>Water</strong></p>
+ 
+        <p><strong>Unit Complied:<a href="{{route('getotherDocuments',[$regionals->id,'5','1','regional'])}}">{{Helper::Totalfileslist("5",$userss->id,"half","regional")}} View</a></strong></p>
+        <p><strong>Unit Non Complied:20</strong></p>
+                                    </div>
+                                    <div class="divider"></div>
+                                    <div class="box-in-content-2">
+                                        <h5>H2</h5>
+                                        <p><strong>Food Unit Complied:<a href="{{route('getotherDocuments',[$regionals->id,'4','1','regional'])}}">{{Helper::Totalfileslist("4",$userss->id,"full","regional")}} View</a></strong></p>
+        <p><strong>Unit Non Complied:20</strong></p>
+                <br>
+        <p><strong>Water</strong></p>
+
+        <p><strong>Unit Complied:<a href="{{route('getotherDocuments',[$regionals->id,'5','1','regional'])}}">{{Helper::Totalfileslist("5",$userss->id,"full","regional")}} View</a></strong></p>
+        <p><strong>Unit Non Complied:20</strong></p>
+                                    </div>
+                                   
+                                </div>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td colspan="7">
+                                <div class="btn-view-regional sec-btn-unit">
+                                   <button class="btn-unit-three" onclick="openUnit({{$regionals->id ?? ''}})">View Unit</button>
+                                       
+                                </div>
+                            </td>
+                            
+                        </tr>
+                        
+                        @php $i=1; @endphp
+
+@php $unitusers = DB::table('users')->where('created_by1', $regionals->id)->where('is_role', "3")->get(); @endphp
+                                                    @foreach($unitusers as $userss)
+                        <tr>
+                            <td colspan="7">
+                            <table class="drop-down-tble tab-three openUnit_{{$userss->created_by1 ?? ''}}">
+                                <thead>
+                                    <tr>
+                                              <th style="background: #f74c4c;"><span>Unit Name:</span>{{$userss->login_id ?? ''}}</th>
+                <th style="background: #f74c4c;"><span>Contact Person Name:</span>{{$userss->name ?? ''}}</th>
+                <th style="background: #f74c4c;"><span>Designaation:</span>{{$userss->designation ?? ''}}</th>
+                <th style="background: #f74c4c;"><span>Email:{{$userss->email ?? ''}}</span></th>
+                <th style="background: #f74c4c;"><span>Company Number:</span>{{$userss->mobile_number ?? ''}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="7"><p>{{$userss->Company_address ?? ''}}</p></td>
+                                    </tr>
+                                    <tr>
+                                        
+                                        																
+<div class="modal fade " id="uploadlinces{{$userss->id}}" tabindex="-1" aria-hidden="true" >
+<div class="modal-dialog modal-dialog-centered modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+
+<h5 class="modal-title">Upload License:</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+<form method="post" action="{{route('lincesupload')}}" enctype="multipart/form-data">
+@csrf
+<div class="row">
+<input type="hidden" class="form-control"  name="type" placeholder="" value="1" required>
+<input type="hidden" class="form-control"  name="unit_id" placeholder="" value="{{$userss->id ?? ''}}" required>
+<input type="hidden" class="form-control"  name="regional_id" placeholder="" value="{{$userss->created_by1 ?? ''}}" required>
+<input type="hidden" class="form-control"  name="corporate_id" placeholder="" value="{{$userss->created_by ?? ''}}" required>
+
+<div class="mb-3 col-md-6">
+<label class="form-label">Next Due Date:</label>
+<input type="date" class="form-control"  name="due_date" placeholder="" >
+</div>
+<div class="mb-3 col-md-6">
+<label class="form-label">Upload License: <span style="color: red;">*(Maxium Size 2MB)</span></label>
+<input type="file" class="form-control"  name="image" placeholder="" >
+@if($errors->has('image1'))
+<div class="error">{{ $errors->first('image1') }}</div>
+@endif
+</div>
+
+<div class="mb-3 col-md-6">
+<label class="form-label">Select Type Of License:</label>
+
+<select class="form-control" name="cat_type">
+<option value="Central">Central</option>
+<option value="State">State</option>
+<option value="Registration">Registration</option>
+
+</select>
+
+</div>
+
+
+
+<div class="mb-3 col-md-12 text-center">
+<hr>
+<button type="submit" class="btn btn-primary">Upload</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>	
+
+
+<div class="modal fade " id="uploadhra{{$userss->id}}" tabindex="-1" aria-hidden="true" >
+<div class="modal-dialog modal-dialog-centered modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+
+<h5 class="modal-title">Upload HRA:</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+<form method="post" action="{{route('lincesupload')}}" enctype="multipart/form-data">
+@csrf
+<div class="row">
+<input type="hidden" class="form-control"  name="type" placeholder="" value="2" required>
+<input type="hidden" class="form-control"  name="unit_id" placeholder="" value="{{$userss->id ?? ''}}" required>
+<input type="hidden" class="form-control"  name="regional_id" placeholder="" value="{{$userss->created_by1 ?? ''}}" required>
+<input type="hidden" class="form-control"  name="corporate_id" placeholder="" value="{{$userss->created_by ?? ''}}" required>
+
+<div class="mb-3 col-md-6">
+<label class="form-label">Renewal Due Date:</label>
+<input type="date" class="form-control"  name="due_date" placeholder="" >
+</div>
+<div class="mb-3 col-md-6">
+<label class="form-label">Upload License:<span style="color: red;">*(Maxium Size 2MB)</span></label>
+<input type="file" class="form-control"  name="image" placeholder="" >
+@if($errors->has('image1'))
+<div class="error">{{ $errors->first('image1') }}</div>
+@endif
+</div>
+
+<div class="mb-3 col-md-12 text-center">
+<hr>
+<button type="submit" class="btn btn-primary">Upload</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="modal fade " id="uploadtpa{{$userss->id}}" tabindex="-1" aria-hidden="true" >
+<div class="modal-dialog modal-dialog-centered modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+
+<h5 class="modal-title">Upload TPA:</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+<form method="post" action="{{route('lincesupload')}}" enctype="multipart/form-data">
+@csrf
+<div class="row">
+<input type="hidden" class="form-control"  name="type" placeholder="" value="3" required>
+<input type="hidden" class="form-control"  name="unit_id" placeholder="" value="{{$userss->id ?? ''}}" required>
+<input type="hidden" class="form-control"  name="regional_id" placeholder="" value="{{$userss->created_by1 ?? ''}}" required>
+<input type="hidden" class="form-control"  name="corporate_id" placeholder="" value="{{$userss->created_by ?? ''}}" required>
+
+<div class="mb-3 col-md-6">
+<label class="form-label">Renewal Due Date:</label>
+<input type="date" class="form-control"  name="due_date" placeholder="" >
+</div>
+<div class="mb-3 col-md-6">
+<label class="form-label">Upload TPA:</label>
+<input type="file" class="form-control"  name="image" placeholder="" >
+@if($errors->has('image1'))
+<div class="error">{{ $errors->first('image1') }}</div>
+@endif
+</div>
+
+<div class="mb-3 col-md-12 text-center">
+<hr>
+<button type="submit" class="btn btn-primary">Upload</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+            <td>
+            <div class="totel-rate-box" style="min-width: auto;">
+            <div class="box-in-content">
+            <h5>FSSAI license ({{ Helper::lastDocuments($userss->id) }})</h5>
+            
+            <p><strong>Valid:<a href="{{route('getDocuments',[$userss->id,'Central','Unit'])}}">{{ Helper::getDocuments($userss->id, 'Central', 'Unit','License') }} View</a></strong></p>
+            
+            
+            
+            <p><strong>About to expried:<a href="{{route('getexpDocuments',[$userss->id,'Central','1','Unit'])}}">{{Helper::getexpDocuments($userss->id,"Central","1","Unit","License")}} View</a></p>
+            <p><strong>Expried:<a href="{{route('getexpDocuments',[$userss->id,'Central','2','Unit'])}}">{{Helper::getexpDocuments($userss->id,"Central","2","Unit","License")}} View</a></strong></strong></p>
+            @if(Helper::lastDocuments($userss->id))
+                <p><strong>Uploaded</strong></p>
+                            <p><strong class="text-red"><a href="{{route('allUnitHistory',[$userss->id,'unit'])}}">History</a></strong></p>
+            @else
+                <p><strong>Not uploaded:<a href="{{route('unitHistory',[$userss->id,'unit'])}}">1</a></strong></p>
+            @endif
+            
+
+            </div>
+            
+            <br>
+            
+            
+            </div>
+            
+            
+            </td>
+             
+                                       
+            <td>
+            <div class="totel-rate-box">
+            <div class="box-in-content">
+                
+                                                                    <div class="license-box">
+<div style="width: 100%;text-align: center;margin: 10px;"><strong>HRA</strong></div>
+
+<div style="float: left;width: 100%;">
+         Total:<a href="{{route('getallDocuments',[$userss->id,'All','unit'])}}?document_type=HRA">{{ Helper::getexpDocuments($userss->id,"Central","2","unit","HRA")  +  Helper::getDocuments($userss->id, 'Central', 'unit','HRA') }}</a>
+
+[Valid: 
+    <a href="{{ route('getDocuments', [$userss->id, 'Central', 'unit']) }}?document_type=HRA">
+        {{ Helper::getDocuments($userss->id, 'Central', 'unit','HRA') }}
+    </a> 
+    (Near Expiry: 
+    <a href="{{ route('getexpDocuments', [$userss->id, 'Central', '1', 'unit']) }}?document_type=HRA">
+        {{ Helper::getexpDocuments($userss->id, 'Central', '1', 'unit','HRA') }}
+    </a>)
+    (NA:<a href="{{route('getallDocuments',[$userss->id,'NA','Corporate'])}}?document_type=HRA">{{ Helper::totalDocuments($userss->id, 'NA', 'Corporate','HRA') }}</a>)
+    ]
+</div>
+
+<div style="float: left;width: 50%;">Expired: 
+    <a href="{{ route('getexpDocuments', [$userss->id, 'Central', '2', 'unit']) }}?document_type=HRA">
+        {{ Helper::getexpDocuments($userss->id, 'Central', '2', 'unit','HRA') }}
+    </a>
+</div>
+
+<div style="float: left;width: 50%;">Not Uploaded: 
+    <a href="{{ route('units', [$userss->id, '1', 'pending']) }}?document_type=HRA">
+        {{ Helper::units($userss->id, '1', 'pending','HRA') }} View
+    </a>
+</div>
+     
+</div>
+
+
+            </div>
+            <div class="divider"></div>
+            <div class="box-in-content-2">
+
+                                                    <div class="license-box">
+<div style="width: 100%;text-align: center;margin: 10px;"><strong>TPA</strong></div>
+
+<div style="float: left;width: 100%;">
+     Total:<a href="{{route('getallDocuments',[$userss->id,'All','unit'])}}?document_type=TPA">{{ Helper::getexpDocuments($userss->id,"Central","2","unit","TPA")  +  Helper::getDocuments($userss->id, 'Central', 'unit','TPA') }}</a>
+     
+     [Valid: 
+    <a href="{{ route('getDocuments', [$userss->id, 'Central', 'unit']) }}?document_type=TPA">
+        {{ Helper::getDocuments($userss->id, 'Central', 'unit','TPA') }}
+    </a> 
+    (Near Expiry: 
+    <a href="{{ route('getexpDocuments', [$userss->id, 'Central', '1', 'unit']) }}?document_type=TPA">
+        {{ Helper::getexpDocuments($userss->id, 'Central', '1', 'unit','TPA') }}
+    </a>)
+     (NA:<a href="{{route('getallDocuments',[$userss->id,'NA','Corporate'])}}?document_type=TPA">{{ Helper::totalDocuments($userss->id, 'NA', 'Corporate','TPA') }}</a>)
+     ]
+</div>
+
+<div style="float: left;width: 50%;">Expired: 
+    <a href="{{ route('getexpDocuments', [$userss->id, 'Central', '2', 'unit']) }}?document_type=TPA">
+        {{ Helper::getexpDocuments($userss->id, 'Central', '2', 'unit','TPA') }}
+    </a>
+</div>
+
+<div style="float: left;width: 50%;">Not Uploaded: 
+    <a href="{{ route('units', [$userss->id, '1', 'pending']) }}?document_type=TPA">
+        {{ Helper::units($userss->id, '1', 'pending','TPA') }} View
+    </a>
+</div>
+     
+</div>
+            </div>
+              <div style="float: left;width: 50%;"><a href="{{route('allUnitHistory',[$userss->id,'unit'])}}?document_type=TPA">History</a></div> 
+            </div>
+            </td>
+            <td>
+            <div class="totel-rate-box" style="    min-width: 420px;">
+            <div class="box-in-content">
+            <h5>Medical Fittness Certificate</h5>
+            <h5>Unit Complied:20</h5>
+            <h5>Unit About to expried:0</h5>
+            <h5>Expried:0</h5>
+            <h5>Unit Non Complied:20</h5>
+            </div>
+            <div class="divider"></div>
+            <div class="box-in-content-2">
+            <h5>FoSTaC Certificate)</h5>
+            <h5>Unit Compliance:</h5>
+            <h5>Unit Not Compliance:</h5>
+            <h5>Vaid Certificate:</h5>
+            <a href="#">Update/View License</a>
+            </div>
+            
+            </div>
+            </td>
+        <td>
+        <div class="totel-rate-box">
+        <div class="box-in-content">
+        <p><strong>Food Unit Complied:<a href="{{route('getotherDocuments',[$regionals->id,'4','1','regional'])}}">{{Helper::Totalfileslist("4",$userss->id,"half","regional")}} View</a></strong></p>
+        <p><strong>Unit Non Complied:20</strong></p>
+        <br>
+        <p><strong>Water</strong></p>
+        
+        <p><strong>Unit Complied:<a href="{{route('getotherDocuments',[$regionals->id,'5','1','regional'])}}">{{Helper::Totalfileslist("5",$userss->id,"half","regional")}} View</a></strong></p>
+        <p><strong>Unit Non Complied:20</strong></p>
+        
+  
+        </div>
+        <div class="divider"></div>
+        <div class="box-in-content-2">
+            <p><strong>Food Unit Complied:<a href="{{route('getotherDocuments',[$regionals->id,'4','1','regional'])}}">{{Helper::Totalfileslist("4",$userss->id,"full","regional")}} View</a></strong></p>
+        <p><strong>Unit Non Complied:20</strong></p>
+         <br>
+        <h5>Water</h5>
+               
+        <p><strong>Unit Complied:<a href="{{route('getotherDocuments',[$regionals->id,'5','1','regional'])}}">{{Helper::Totalfileslist("5",$userss->id,"full","regional")}} View</a></strong></p>
+        <p><strong>Unit Non Complied:20</strong></p>
+        </div>
+        
+        </div>
+        </td>
+    
+                           
+                                       
+                          
+                                    
+                                </tbody>
+                            </table>
+                   
+                        
+                        </tr>
+                        
+                        @php $i++; @endphp
+                             @endforeach
+                    </tbody>
+                </table>
+            </td>
+               
+            </tr>
+            
+         @endforeach
+
+            
+        </tbody>
+    </table>
+       @endforeach
+       
+                        <div class="mt-3 col-12 pagination" style="text-align: center;">
+
+                                                        {{ $users->appends(request()->query())->links() }}
+
+
+</div> 
+</div>
+</div>
+</div>
+</div>
+
+                      <div class="modal fade" id="addunitdetails" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add  Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                         <form></form>
+                        <form method="post" action="{{route('add_users')}}">
+                            @csrf
+                    <div class="row">
+
+<input type="hidden" name="is_role" value="2">
+
+                        <div class="mb-3 col-md-6">
+                            <label class="form-label">Corporate ID:</label>
+                            <input type="text" class="form-control"  name="login_id" placeholder="">
+                            @if($errors->has('login_id'))
+    <div class="error">{{ $errors->first('login_id') }}</div>
+@endif
+                        </div>
+
+                               <div class="mb-3 col-md-6">
+                            <label class="form-label">Company Name:</label>
+                            <input type="text" class="form-control"  name="company_name" placeholder="">
+                            @if($errors->has('company_name'))
+    <div class="error">{{ $errors->first('company_name') }}</div>
+@endif
+                        </div>
+
+
+                               <div class="mb-3 col-md-6">
+                            <label class="form-label">Company Address
+:</label>
+                            <input type="text" class="form-control"  name="Company_address" placeholder="">
+                            @if($errors->has('Company_address'))
+    <div class="error">{{ $errors->first('Company_address') }}</div>
+@endif
+                        </div>
+
+                               <div class="mb-3 col-md-6">
+                            <label class="form-label">Contact Person Name:</label>
+                            <input type="text" class="form-control"  name="Contact_Person_Name" placeholder="">
+                            @if($errors->has('login_id'))
+    <div class="error">{{ $errors->first('login_id') }}</div>
+@endif
+                        </div>
+
+                               <div class="mb-3 col-md-6">
+                            <label class="form-label">Designation:</label>
+                            <input type="text" class="form-control"  name="designation" placeholder="">
+                            @if($errors->has('designation'))
+    <div class="error">{{ $errors->first('designation') }}</div>
+@endif
+                        </div>
+
+                              <div class="mb-3 col-md-6">
+                            <label class="form-label">Enter Full Name </label>
+                            <input type="text" name="name" class="form-control" placeholder="">
+                            @if($errors->has('name'))
+    <div class="error">{{ $errors->first('name') }}</div>
+@endif
+
+                        </div>
+
+                              <div class="mb-3 col-md-6">
+                            <label class="form-label">Enter Email </label>
+                            <input type="email" name="email" class="form-control" placeholder="">
+                            @if($errors->has('email'))
+    <div class="error">{{ $errors->first('email') }}</div>
+@endif
+                        </div>
+
+                              <div class="mb-3 col-md-6">
+                            <label class="form-label">Enter Mobile Number </label>
+                            <input type="text" name="mobile_number" class="form-control" placeholder="">
+                            @if($errors->has('mobile_number'))
+    <div class="error">{{ $errors->first('mobile_number') }}</div>
+@endif
+                        </div>
+
+                              <div class="mb-12 col-md-12">
+                            <label class="form-label">Enter Password </label>
+                            <input type="text" name="password" class="form-control" placeholder="">
+                            @if($errors->has('password'))
+    <div class="error">{{ $errors->first('password') }}</div>
+@endif
+                        </div>
+               
+                        <div class="mb-3 col-md-12 text-center">
+                            <hr>
+                            <button type="submit" class="btn btn-primary">Add  Details</button>
+                        </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+ 
+                      <div class="modal fade" id="addcompanydetails" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add  Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                         <form></form>
+                        <form method="post" action="{{route('add_users')}}">
+                            @csrf
+                    <div class="row">
+
+<input type="hidden" name="is_role" value="2">
+
+                        <div class="mb-3 col-md-6">
+                            <label class="form-label">Corporate ID:</label>
+                            <input type="text" class="form-control"  name="login_id" placeholder="">
+                            @if($errors->has('login_id'))
+    <div class="error">{{ $errors->first('login_id') }}</div>
+@endif
+                        </div>
+
+                               <div class="mb-3 col-md-6">
+                            <label class="form-label">Company Name:</label>
+                            <input type="text" class="form-control"  name="company_name" placeholder="">
+                            @if($errors->has('company_name'))
+    <div class="error">{{ $errors->first('company_name') }}</div>
+@endif
+                        </div>
+
+
+                               <div class="mb-3 col-md-6">
+                            <label class="form-label">Company Address
+:</label>
+                            <input type="text" class="form-control"  name="Company_address" placeholder="">
+                            @if($errors->has('Company_address'))
+    <div class="error">{{ $errors->first('Company_address') }}</div>
+@endif
+                        </div>
+
+                   
+
+                   
+
+                              <div class="mb-3 col-md-6">
+                            <label class="form-label">Enter Contact Person Name </label>
+                            <input type="text" name="name" class="form-control" placeholder="">
+                            @if($errors->has('name'))
+    <div class="error">{{ $errors->first('name') }}</div>
+@endif
+
+                        </div>
+						
+						            <div class="mb-3 col-md-6">
+                            <label class="form-label">Designation:</label>
+                            <input type="text" class="form-control"  name="designation" placeholder="">
+                            @if($errors->has('designation'))
+    <div class="error">{{ $errors->first('designation') }}</div>
+@endif
+                        </div>
+         <div class="mb-3 col-md-6">
+                            <label class="form-label">Enter Mobile Number </label>
+                            <input type="text" name="mobile_number" class="form-control" placeholder="">
+                            @if($errors->has('mobile_number'))
+    <div class="error">{{ $errors->first('mobile_number') }}</div>
+@endif
+                        </div>
+                              <div class="mb-3 col-md-6">
+                            <label class="form-label">Enter Email </label>
+                            <input type="email" name="email" class="form-control" placeholder="">
+                            @if($errors->has('email'))
+    <div class="error">{{ $errors->first('email') }}</div>
+@endif
+                        </div>
+
+                     
+
+                              <div class="mb-6 col-md-6">
+                            <label class="form-label">Enter Password </label>
+                            <input type="text" name="password" class="form-control" placeholder="">
+                            @if($errors->has('password'))
+    <div class="error">{{ $errors->first('password') }}</div>
+@endif
+                        </div>
+               
+                        <div class="mb-3 col-md-12 text-center">
+                            <hr>
+                            <button type="submit" class="btn btn-primary">Add  Details</button>
+                        </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+       
+                        
+                    </div>
+
+
+
+
+@endsection
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script>
+    $(function(){
+  $('.header-level').click(function(){
+    $(this).next('.sub-level').find('table').toggle();
+  });
+});
+</script>
+
+<script>
+    function collapse(cell){
+  var row = cell.parentElement;
+  var target_row = row.parentElement.children[row.rowIndex + 1];
+  if (target_row.style.display == 'table-row') {
+    cell.innerHTML = '+';
+    target_row.style.display = 'none';
+  } else {
+    cell.innerHTML = '-';
+    target_row.style.display = 'table-row';
+  }
+}
+</script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
+@if($errors->any())
+<script>
+    $(document).ready(function() {
+    $('#addcompanydetails').modal('show');
+});
+     </script>
+     
+     
+@endif
+
+
+
+
+
+   
